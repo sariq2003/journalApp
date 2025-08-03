@@ -1,0 +1,70 @@
+package com.journalApp.controller;
+
+import com.journalApp.payload.JournalEntryDto;
+import com.journalApp.service.JournalEntryService;
+import com.journalApp.service.serviceImpl.JournalEntryServiceImpl;
+import jakarta.validation.Valid;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/journalEntry")
+public class JournalEntryController {
+
+    @Autowired
+    private JournalEntryService journalEntryService;
+
+
+    //http://localhost:8080/api/journalEntry/saveEntry
+    @PostMapping("/saveEntry")
+    public ResponseEntity<?> saveEntry(@Valid @RequestBody JournalEntryDto journalEntryDto, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(fieldError -> errors.put(fieldError.getField(), fieldError.getDefaultMessage()));
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        JournalEntryDto journalEntryDto1 = journalEntryService.saveEntry(journalEntryDto);
+        return new ResponseEntity<>(journalEntryDto1, HttpStatus.CREATED);
+    }
+
+    //http://localhost:8080/api/journalEntry/getAllEntries
+    @GetMapping("/getAllEntries")
+    public ResponseEntity<List<JournalEntryDto>> getAll() {
+        List<JournalEntryDto> journalDtos = journalEntryService.getAllEntries();
+        return new ResponseEntity<>(journalDtos, HttpStatus.OK);
+    }
+
+
+    //http://localhost:8080/api/journalEntry/id/{id}
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<JournalEntryDto> getEntryById(@PathVariable ObjectId id) {
+        JournalEntryDto entryById = journalEntryService.getEntryById(id);
+        return new ResponseEntity<>(entryById, HttpStatus.OK);
+
+    }
+// http://localhost:8080/api/journalEntry/updateEntry/{id}
+    @PutMapping("/updateEntry/{id}")
+    public ResponseEntity<JournalEntryDto> updateById(@PathVariable ObjectId id, @RequestBody JournalEntryDto journalEntryDto) {
+        JournalEntryDto journalEntryDto1 = journalEntryService.updateEntryById(id, journalEntryDto);
+        return new ResponseEntity<>(journalEntryDto1,HttpStatus.OK);
+    }
+
+    //http://localhost:8080/api/journalEntry/deleteEntry/{id}
+    @DeleteMapping("deleteEntry/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable ObjectId id){
+        Boolean b = journalEntryService.deleteEntryById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(b);
+    }
+
+
+}
