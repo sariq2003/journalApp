@@ -46,10 +46,9 @@ public class JournalEntryServiceImpl implements JournalEntryService {
     }
 
     @Override
-    public Boolean deleteEntryById(ObjectId id) {
+    public void deleteEntryById(ObjectId id) {
         JournalEntry entry = journalRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Entry with id "+id+" not found"));
           journalRepo.delete(entry);
-          return true;
     }
 
     @Override

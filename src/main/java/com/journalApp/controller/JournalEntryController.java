@@ -61,9 +61,10 @@ public class JournalEntryController {
 
     //http://localhost:8080/api/journalEntry/deleteEntry/{id}
     @DeleteMapping("deleteEntry/{id}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable ObjectId id){
-        Boolean b = journalEntryService.deleteEntryById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(b);
+    public ResponseEntity<?> deleteById(@PathVariable ObjectId id){
+         journalEntryService.deleteEntryById(id);
+         return new ResponseEntity<>("Successfully Deleted",HttpStatus.NO_CONTENT);
+
     }
 
 

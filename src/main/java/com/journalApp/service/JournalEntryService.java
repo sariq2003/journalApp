@@ -15,7 +15,7 @@ public interface JournalEntryService {
 
     public JournalEntryDto getEntryById(ObjectId id);
 
-    public Boolean deleteEntryById(ObjectId id);
+    public void deleteEntryById(ObjectId id);
 
     public JournalEntryDto updateEntryById(ObjectId id , JournalEntryDto journalEntryDto);
 
