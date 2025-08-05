@@ -2,11 +2,13 @@ package com.journalApp.payload;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.bson.types.ObjectId;
 
 import org.springframework.validation.annotation.Validated;
 
-@Validated
+
+@Data
 public class JournalEntryDto {
 
 
@@ -22,27 +24,5 @@ public class JournalEntryDto {
    private  String content;
 
 
-    public ObjectId getId() {
-        return id;
-    }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

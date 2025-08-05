@@ -4,10 +4,9 @@ import com.journalApp.payload.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
