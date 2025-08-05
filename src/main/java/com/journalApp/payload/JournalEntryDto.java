@@ -7,6 +7,8 @@ import org.bson.types.ObjectId;
 
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
+
 
 @Data
 public class JournalEntryDto {
@@ -22,6 +24,8 @@ public class JournalEntryDto {
   @NotNull
   @Size(min = 5, message = "Content should have atleast 5 characters")
    private  String content;
+
+    LocalDateTime time;
 
 
 
