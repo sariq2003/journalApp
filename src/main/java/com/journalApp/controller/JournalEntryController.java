@@ -24,23 +24,23 @@ public class JournalEntryController {
     private JournalEntryService journalEntryService;
 
 
-    //http://localhost:8080/api/journalEntry/saveEntry
+    //http://localhost:8080/api/journalEntry/saveEntry?username=
     @PostMapping("/saveEntry")
-    public ResponseEntity<?> saveEntry(@Valid @RequestBody JournalEntryDto journalEntryDto, BindingResult result) {
+    public ResponseEntity<?> saveEntry(@Valid @RequestBody JournalEntryDto journalEntryDto, BindingResult result,@RequestParam String username) {
         if (result.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             result.getFieldErrors().forEach(fieldError -> errors.put(fieldError.getField(), fieldError.getDefaultMessage()));
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        JournalEntryDto journalEntryDto1 = journalEntryService.saveEntry(journalEntryDto);
+        JournalEntryDto journalEntryDto1 = journalEntryService.saveEntry(journalEntryDto,username);
         return new ResponseEntity<>(journalEntryDto1, HttpStatus.CREATED);
     }
 
-    //http://localhost:8080/api/journalEntry/getAllEntries
-    @GetMapping("/getAllEntries")
-    public ResponseEntity<List<JournalEntryDto>> getAll() {
-        List<JournalEntryDto> journalDtos = journalEntryService.getAllEntries();
+    //http://localhost:8080/api/journalEntry/getAllEntriesOfUser/{userName}
+    @GetMapping("/getAllEntriesOfUser/{userName}")
+    public ResponseEntity<List<JournalEntryDto>> getAll(@PathVariable String userName) {
+        List<JournalEntryDto> journalDtos = journalEntryService.getAllEntriesOfUser(userName);
         return new ResponseEntity<>(journalDtos, HttpStatus.OK);
     }
 
@@ -60,13 +60,18 @@ public class JournalEntryController {
         return new ResponseEntity<>(journalEntryDto1,HttpStatus.OK);
     }
 
-    //http://localhost:8080/api/journalEntry/deleteEntry/{id}
-    @DeleteMapping("deleteEntry/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable ObjectId id){
-         journalEntryService.deleteEntryById(id);
+    //http://localhost:8080/api/journalEntry/deleteEntry/{userName}
+    @DeleteMapping("deleteEntry/{userName}")
+    public ResponseEntity<?> deleteEntriesByUser(@PathVariable String userName){
+         journalEntryService.deleteEntriesByUser(userName);
          return new ResponseEntity<>("Successfully Deleted",HttpStatus.NO_CONTENT);
 
     }
+
+
+
+
+
 
 
 }
