@@ -61,11 +61,7 @@ public class JournalEntryServiceImpl implements JournalEntryService {
         return mapToDto(journalEntry);
     }
 
-    @Override
-    public void deleteEntryById(ObjectId id) {
-        JournalEntry entry = journalRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Entry with id "+id+" not found"));
-          journalRepo.delete(entry);
-    }
+
 
     @Override
     public JournalEntryDto updateEntryById(ObjectId id, JournalEntryDto journalEntryDto) {
@@ -81,9 +77,12 @@ public class JournalEntryServiceImpl implements JournalEntryService {
     }
 
     @Override
-    public void deleteEntriesByUser(String userName) {
+    public void deleteEntryById(String userName,ObjectId id) {
         User userFromDb= userService.getUserByusername(userName);
-            userFromDb.getJournalEntries().forEach(entry -> journalRepo.deleteById(entry.getId()));
+        userFromDb.getJournalEntries().removeIf(x->x.getId().equals(id));
+        userService.saveUser(userFromDb);
+        journalRepo.deleteById(id);
+
         }
 
     public JournalEntryDto mapToDto(JournalEntry journalEntry) {

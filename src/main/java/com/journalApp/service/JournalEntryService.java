@@ -13,11 +13,10 @@ public interface JournalEntryService {
 
     public JournalEntryDto getEntryById(ObjectId id);
 
-    public void deleteEntryById(ObjectId id);
 
     public JournalEntryDto updateEntryById(ObjectId id , JournalEntryDto journalEntryDto);
 
-    public void deleteEntriesByUser(String userName);
+    public void deleteEntryById(String userName,ObjectId id);
 
 
 

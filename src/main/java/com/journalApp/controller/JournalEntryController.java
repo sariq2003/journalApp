@@ -45,9 +45,9 @@ public class JournalEntryController {
     }
 
 
-    //http://localhost:8080/api/journalEntry/id/{id}
+    //http://localhost:8080/api/journalEntry/getByid/{id}
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/getByid/{id}")
     public ResponseEntity<JournalEntryDto> getEntryById(@PathVariable ObjectId id) {
         JournalEntryDto entryById = journalEntryService.getEntryById(id);
         return new ResponseEntity<>(entryById, HttpStatus.OK);
@@ -61,9 +61,9 @@ public class JournalEntryController {
     }
 
     //http://localhost:8080/api/journalEntry/deleteEntry/{userName}
-    @DeleteMapping("deleteEntry/{userName}")
-    public ResponseEntity<?> deleteEntriesByUser(@PathVariable String userName){
-         journalEntryService.deleteEntriesByUser(userName);
+    @DeleteMapping("deleteEntry/{userName}/{EntryId}")
+    public ResponseEntity<?> deleteEntriesByUser(@PathVariable String userName, @PathVariable ObjectId EntryId){
+         journalEntryService.deleteEntryById(userName,EntryId);
          return new ResponseEntity<>("Successfully Deleted",HttpStatus.NO_CONTENT);
 
     }
