@@ -1,17 +1,18 @@
 package com.journalApp.service;
 
 import com.journalApp.entity.User;
+import com.journalApp.payload.UserDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    public User saveUser(User user);
+    public UserDto saveUser(UserDto userDto);
 
 
     public void deleteUserByusername(String userName);
 
-    public List<User> getAllUsers();
+    public List<UserDto> getAllUsers();
 
-    public User getUserByusername(String userName);
+    public UserDto getUserByusername(String userName);
 }

@@ -4,6 +4,7 @@ import com.journalApp.entity.JournalEntry;
 import com.journalApp.entity.User;
 import com.journalApp.exception.ResourceNotFoundException;
 import com.journalApp.payload.JournalEntryDto;
+import com.journalApp.payload.UserDto;
 import com.journalApp.repository.JournalEntryRepository;
 import com.journalApp.repository.UserRespository;
 import com.journalApp.service.JournalEntryService;
@@ -24,16 +25,16 @@ import java.util.stream.Collectors;
 public class JournalEntryServiceImpl implements JournalEntryService {
 
     @Autowired
-    UserRespository UserRespository;
+    private   UserRespository UserRespository;
 
     @Autowired
-    UserService userService;
+    private    UserService userService;
 
     @Autowired
-    JournalEntryRepository journalRepo;
+    private   JournalEntryRepository journalRepo;
 
     @Autowired
-    ModelMapper mapper;
+    private    ModelMapper mapper;
 
 
 
@@ -43,18 +44,16 @@ public class JournalEntryServiceImpl implements JournalEntryService {
     public JournalEntryDto saveEntry(JournalEntryDto journalEntryDto, String username) {
 
         journalEntryDto.setTime(LocalDateTime.now());
-
         JournalEntry savedEntity = (JournalEntry)journalRepo.save(mapToEntity(journalEntryDto));
-        User user = userService.getUserByusername(username);
-        user.getJournalEntries().add(savedEntity);
-        userService.saveUser(user);
-
+        UserDto userDto = userService.getUserByusername(username);
+        userDto.getJournalEntries().add(savedEntity);
+        userService.saveUser(userDto);
         return mapToDto(savedEntity);
     }
 
     @Override
     public List<JournalEntryDto> getAllEntriesOfUser(String username) {
-        User userFromDb = userService.getUserByusername(username);
+        UserDto userFromDb = userService.getUserByusername(username);
         List<JournalEntryDto> journalEntryDtos = userFromDb.getJournalEntries().stream().map(journalEntry -> mapToDto(journalEntry)).collect(Collectors.toList());
         return journalEntryDtos;
     }
@@ -82,7 +81,7 @@ public class JournalEntryServiceImpl implements JournalEntryService {
 
     @Override
     public void deleteEntryById(String userName,ObjectId id) {
-        User userFromDb= userService.getUserByusername(userName);
+        UserDto userFromDb= userService.getUserByusername(userName);
         userFromDb.getJournalEntries().removeIf(x->x.getId().equals(id));
         userService.saveUser(userFromDb);
         journalRepo.deleteById(id);

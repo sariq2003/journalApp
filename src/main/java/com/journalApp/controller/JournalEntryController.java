@@ -46,7 +46,6 @@ public class JournalEntryController {
 
 
     //http://localhost:8080/api/journalEntry/getByid/{id}
-
     @GetMapping("/getByid/{id}")
     public ResponseEntity<JournalEntryDto> getEntryById(@PathVariable ObjectId id) {
         JournalEntryDto entryById = journalEntryService.getEntryById(id);

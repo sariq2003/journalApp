@@ -1,14 +1,12 @@
 package com.journalApp.payload;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+@Getter
+@Setter
 public class ErrorResponse {
     private LocalDateTime timestamp;
     private int status;
@@ -16,5 +14,13 @@ public class ErrorResponse {
     private String message;
     private String path;
 
+   public ErrorResponse(LocalDateTime timestamp,int status,String error,String message,String path){
+        this.timestamp=timestamp;
+        this.status=status;
+        this.error=error;
+        this.message=message;
+        this.path=path;
+
+    }
 
 }
