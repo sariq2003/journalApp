@@ -39,7 +39,7 @@ public class UserContoller {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    //http:/localhost:8080/api/user/getAllUsers
+    //http://localhost:8080/api/user/getAllUsers
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserDto>> getAllUsers(){
         List<UserDto> allUsers = userService.getAllUsers();
